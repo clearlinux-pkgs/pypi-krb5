@@ -1,2 +1,3 @@
 libc.so.6
+libk5crypto.so.3
 libkrb5.so.3
