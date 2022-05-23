@@ -4,12 +4,14 @@
 #
 Name     : pypi-krb5
 Version  : 0.3.0
-Release  : 3
+Release  : 4
 URL      : https://files.pythonhosted.org/packages/d4/4e/a18208fb107ada38738627b116a5fe55af96934957006ae26642584d69b2/krb5-0.3.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/d4/4e/a18208fb107ada38738627b116a5fe55af96934957006ae26642584d69b2/krb5-0.3.0.tar.gz
 Summary  : Kerberos API bindings for Python
 Group    : Development/Tools
 License  : MIT
+Requires: pypi-krb5-filemap = %{version}-%{release}
+Requires: pypi-krb5-lib = %{version}-%{release}
 Requires: pypi-krb5-license = %{version}-%{release}
 Requires: pypi-krb5-python = %{version}-%{release}
 Requires: pypi-krb5-python3 = %{version}-%{release}
@@ -24,6 +26,24 @@ BuildRequires : pypi(wheel)
 [![Test workflow](https://github.com/jborean93/pykrb5/actions/workflows/ci.yml/badge.svg)](https://github.com/jborean93/pykrb5/actions/workflows/ci.yml)
 [![PyPI version](https://badge.fury.io/py/krb5.svg)](https://badge.fury.io/py/krb5)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jborean93/pykrb5/blob/main/LICENSE)
+
+%package filemap
+Summary: filemap components for the pypi-krb5 package.
+Group: Default
+
+%description filemap
+filemap components for the pypi-krb5 package.
+
+
+%package lib
+Summary: lib components for the pypi-krb5 package.
+Group: Libraries
+Requires: pypi-krb5-license = %{version}-%{release}
+Requires: pypi-krb5-filemap = %{version}-%{release}
+
+%description lib
+lib components for the pypi-krb5 package.
+
 
 %package license
 Summary: license components for the pypi-krb5 package.
@@ -45,6 +65,7 @@ python components for the pypi-krb5 package.
 %package python3
 Summary: python3 components for the pypi-krb5 package.
 Group: Default
+Requires: pypi-krb5-filemap = %{version}-%{release}
 Requires: python3-core
 Provides: pypi(krb5)
 
@@ -55,13 +76,16 @@ python3 components for the pypi-krb5 package.
 %prep
 %setup -q -n krb5-0.3.0
 cd %{_builddir}/krb5-0.3.0
+pushd ..
+cp -a krb5-0.3.0 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1649777957
+export SOURCE_DATE_EPOCH=1653341307
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -72,6 +96,15 @@ export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 -m build --wheel --skip-dependency-check --no-isolation
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3 "
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
+python3 -m build --wheel --skip-dependency-check --no-isolation
+
+popd
 
 %install
 export MAKEFLAGS=%{?_smp_mflags}
@@ -82,9 +115,26 @@ pip install --root=%{buildroot} --no-deps --ignore-installed dist/*.whl
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3 "
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
+pip install --root=%{buildroot}-v3 --no-deps --ignore-installed dist/*.whl
+popd
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
+
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-pypi-krb5
+
+%files lib
+%defattr(-,root,root,-)
+/usr/share/clear/optimized-elf/other*
 
 %files license
 %defattr(0644,root,root,0755)
