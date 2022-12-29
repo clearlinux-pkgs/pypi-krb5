@@ -4,7 +4,7 @@
 #
 Name     : pypi-krb5
 Version  : 0.4.1
-Release  : 13
+Release  : 14
 URL      : https://files.pythonhosted.org/packages/56/f6/64874f52a47e652e37c8648665374e723500a62d82938ea2db842496d2ed/krb5-0.4.1.tar.gz
 Source0  : https://files.pythonhosted.org/packages/56/f6/64874f52a47e652e37c8648665374e723500a62d82938ea2db842496d2ed/krb5-0.4.1.tar.gz
 Summary  : Kerberos API bindings for Python
@@ -19,6 +19,9 @@ BuildRequires : buildreq-distutils3
 BuildRequires : krb5-dev
 BuildRequires : pypi(cython)
 BuildRequires : pypi(setuptools)
+# Suppress stripping binaries
+%define __strip /bin/true
+%define debug_package %{nil}
 
 %description
 # Python Kerberos 5 Library
@@ -84,15 +87,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1666741448
+export SOURCE_DATE_EPOCH=1672287086
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 -m build --wheel --skip-dependency-check --no-isolation
 pushd ../buildavx2/
