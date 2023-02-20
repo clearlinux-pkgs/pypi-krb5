@@ -1,5 +1,5 @@
 PKG_NAME := pypi-krb5
-URL = https://files.pythonhosted.org/packages/56/f6/64874f52a47e652e37c8648665374e723500a62d82938ea2db842496d2ed/krb5-0.4.1.tar.gz
+URL = https://files.pythonhosted.org/packages/58/e3/50ce47968c1ae283b99410ebb6eaa595b2f016f35f15a9d11426db65ae3e/krb5-0.5.0.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common
