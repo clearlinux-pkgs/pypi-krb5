@@ -5,7 +5,7 @@
 #
 Name     : pypi-krb5
 Version  : 0.5.0
-Release  : 17
+Release  : 18
 URL      : https://files.pythonhosted.org/packages/58/e3/50ce47968c1ae283b99410ebb6eaa595b2f016f35f15a9d11426db65ae3e/krb5-0.5.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/58/e3/50ce47968c1ae283b99410ebb6eaa595b2f016f35f15a9d11426db65ae3e/krb5-0.5.0.tar.gz
 Summary  : Kerberos API bindings for Python
@@ -17,6 +17,7 @@ Requires: pypi-krb5-python3 = %{version}-%{release}
 BuildRequires : buildreq-distutils3
 BuildRequires : krb5-dev
 BuildRequires : pypi(cython)
+BuildRequires : pypi(setuptools)
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
@@ -66,7 +67,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1683040238
+export SOURCE_DATE_EPOCH=1685556781
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
