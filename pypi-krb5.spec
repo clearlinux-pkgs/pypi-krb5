@@ -5,7 +5,7 @@
 #
 Name     : pypi-krb5
 Version  : 0.5.1
-Release  : 19
+Release  : 20
 URL      : https://files.pythonhosted.org/packages/22/dc/68f9676de8405c48b68b47dfcc2a81ec865a1c3d63674ec8a36e2bcf6f57/krb5-0.5.1.tar.gz
 Source0  : https://files.pythonhosted.org/packages/22/dc/68f9676de8405c48b68b47dfcc2a81ec865a1c3d63674ec8a36e2bcf6f57/krb5-0.5.1.tar.gz
 Summary  : Kerberos API bindings for Python
