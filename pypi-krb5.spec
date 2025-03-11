@@ -7,7 +7,7 @@
 #
 Name     : pypi-krb5
 Version  : 0.7.1
-Release  : 28
+Release  : 29
 URL      : https://files.pythonhosted.org/packages/6f/24/eb49e51fdbbfb360f58159cb08bc1925403b72cefb49fad57745fd2f42a9/krb5-0.7.1.tar.gz
 Source0  : https://files.pythonhosted.org/packages/6f/24/eb49e51fdbbfb360f58159cb08bc1925403b72cefb49fad57745fd2f42a9/krb5-0.7.1.tar.gz
 Summary  : Kerberos API bindings for Python
@@ -51,6 +51,7 @@ python components for the pypi-krb5 package.
 Summary: python3 components for the pypi-krb5 package.
 Group: Default
 Requires: python3-core
+Provides: pypi(krb5)
 
 %description python3
 python3 components for the pypi-krb5 package.
@@ -68,7 +69,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1741285973
+export SOURCE_DATE_EPOCH=1741710725
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
